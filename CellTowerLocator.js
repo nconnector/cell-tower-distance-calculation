@@ -92,7 +92,6 @@ class CellTowerLocator {
 
         // sort towers by distance
         distanceArray.sort((a, b) => a.distance - b.distance);
-        console.log(distanceArray);
 
         // find index and distance of the closest tower
         const closestTowerIndex = distanceArray[0].index;
