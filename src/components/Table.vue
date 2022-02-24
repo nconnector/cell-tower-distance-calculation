@@ -162,7 +162,7 @@ export default {
             this.buildings = this.buildingsFiltered;
         },
         handleFilterInput(event) {
-            this.filter = event.target.value;
+            this.filter = event.target.value.toLowerCase();
             this.buildingsFiltered = this.buildingsRaw.filter((building) =>
                 building.name.toLowerCase().includes(this.filter)
             );
