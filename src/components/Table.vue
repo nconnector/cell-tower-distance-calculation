@@ -56,6 +56,7 @@ export default {
             sortKey: null,
             sortAscending: true,
             headerItems: ["type", "id", "name", "x", "y"],
+            numericFields: ["x", "y"],
             buildings: [],
             buildingsFiltered: [],
             buildingsRaw: [
@@ -149,11 +150,18 @@ export default {
                 }
             }
 
-            const ascending = (a, b) =>
-                `${a[this.sortKey]}`.localeCompare(`${b[this.sortKey]}`);
-            const descending = (a, b) =>
-                `${b[this.sortKey]}`.localeCompare(`${a[this.sortKey]}`);
-            const sortingFunction = this.sortAscending ? ascending : descending;
+            let sortingFunction;
+            if (this.numericFields.includes(key)) {
+                sortingFunction = this.sortAscending
+                    ? (a, b) => a[this.sortKey] - b[this.sortKey]
+                    : (a, b) => b[this.sortKey] - a[this.sortKey];
+            } else {
+                const ascending = (a, b) =>
+                    `${a[this.sortKey]}`.localeCompare(`${b[this.sortKey]}`);
+                const descending = (a, b) =>
+                    `${b[this.sortKey]}`.localeCompare(`${a[this.sortKey]}`);
+                sortingFunction = this.sortAscending ? ascending : descending;
+            }
             this.buildings = [...this.buildingsFiltered].sort(sortingFunction);
         },
         sortReset() {
