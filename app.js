@@ -5,7 +5,6 @@ const app = express();
 const cellTowerLocator = new CellTowerLocator();
 
 app.get("/getClosestCellTower", (req, res) => {
-    console.log(req.query);
     const { x, y } = req.query;
 
     // validate input
