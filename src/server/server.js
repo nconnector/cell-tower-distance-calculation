@@ -83,8 +83,11 @@ class Server {
 
     /**
      * This method is a mock-up for a server call (axios.get, fetch, or similar)
+     * In production setting, an asynchronous GET request would be sent to `${url}/getClosestCellTower/?x=${X}&y=${y}`
+     *
      * The reason for this mock-up is to allow demonstration of required functionality deployed as a static website
      * You may find server implementation (Express.js) of this endpoint in /back-end branch of this repository
+     *
      */
     getClosestCellTower(x, y) {
         // map distances to all towers
