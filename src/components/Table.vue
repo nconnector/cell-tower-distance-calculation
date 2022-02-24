@@ -45,7 +45,6 @@ export default {
         return {
             server: new Server(),
             modalVisible: false,
-            modalMsg: "Closest cell tower: C10 TELUS SE1 (-1740, -50)",
             sortKey: null,
             sortAscending: true,
             headerItems: ["type", "id", "name", "x", "y"],
