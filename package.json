@@ -1,0 +1,13 @@
+{
+    "name": "cell-tower-distance-calculation-server",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "serve": "node app.js",
+        "deploy": "sh deploy.sh"
+    },
+    "dependencies": {
+        "express": "^4.17.3"
+    }
+}
