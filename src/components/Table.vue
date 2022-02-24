@@ -8,6 +8,13 @@
                 @click="sortBy(headerItem)"
             >
                 <span>{{ headerItem.toUpperCase() }}</span>
+                <input
+                    class="filter"
+                    v-if="headerItem === 'name'"
+                    v-model="filter"
+                    @click.stop="null"
+                    @input="handleFilterInput($event)"
+                />
                 <div :class="getIconClass(headerItem)" />
             </th>
         </tr>
@@ -45,10 +52,12 @@ export default {
         return {
             server: new Server(),
             modalVisible: false,
+            filter: "",
             sortKey: null,
             sortAscending: true,
             headerItems: ["type", "id", "name", "x", "y"],
             buildings: [],
+            buildingsFiltered: [],
             buildingsRaw: [
                 {
                     type: "Building",
@@ -105,6 +114,7 @@ export default {
     },
     mounted() {
         this.buildings = this.buildingsRaw;
+        this.buildingsFiltered = this.buildingsRaw;
     },
     methods: {
         getIconClass(key) {
@@ -122,27 +132,41 @@ export default {
             this.closestTowerDistance = distance;
             this.modalVisible = true;
         },
-        sortBy(key) {
-            if (this.sortKey !== key) {
-                this.sortAscending = true;
-                this.sortKey = key;
-            } else {
-                if (!this.sortAscending) {
-                    this.sortReset();
-                    return;
+        sortBy(key, reSort) {
+            if (!reSort) {
+                // reset sort direction if sorting by new key
+                if (this.sortKey !== key) {
+                    this.sortAscending = true;
+                    this.sortKey = key;
+                } else {
+                    // reset sort after ascending and descending
+                    if (!this.sortAscending) {
+                        this.sortReset();
+                        return;
+                    }
+                    // enable descending order
+                    this.sortAscending = false;
                 }
-                this.sortAscending = false;
             }
 
-            const ascending = (a, b) => `${a[key]}`.localeCompare(`${b[key]}`);
-            const descending = (a, b) => `${b[key]}`.localeCompare(`${a[key]}`);
+            const ascending = (a, b) =>
+                `${a[this.sortKey]}`.localeCompare(`${b[this.sortKey]}`);
+            const descending = (a, b) =>
+                `${b[this.sortKey]}`.localeCompare(`${a[this.sortKey]}`);
             const sortingFunction = this.sortAscending ? ascending : descending;
-            this.buildings = [...this.buildingsRaw].sort(sortingFunction);
+            this.buildings = [...this.buildingsFiltered].sort(sortingFunction);
         },
         sortReset() {
             this.sortKey = null;
             this.sortAscending = true;
-            this.buildings = this.buildingsRaw;
+            this.buildings = this.buildingsFiltered;
+        },
+        handleFilterInput(event) {
+            this.filter = event.target.value;
+            this.buildingsFiltered = this.buildingsRaw.filter((building) =>
+                building.name.toLowerCase().includes(this.filter)
+            );
+            this.sortBy(undefined, true);
         },
     },
 };
@@ -191,5 +215,9 @@ td {
         opacity: 1;
         transform: rotate(180deg);
     }
+}
+.filter {
+    width: 8em;
+    padding-left: 0.2em;
 }
 </style>
