@@ -225,7 +225,8 @@ td {
     }
 }
 .filter {
-    width: 8em;
+    width: calc(min(8em, 10vw));
+    height: 1.2em;
     padding-left: 0.2em;
 }
 </style>
