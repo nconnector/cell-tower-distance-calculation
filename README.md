@@ -5,7 +5,7 @@
 retrieves the closest cell tower to given x, y coordinates
 
 -   method: GET
--   url: `/`
+-   url: `/getClosestCellTower`
 -   parameters:
     -   x: number
     -   y: number

@@ -4,11 +4,7 @@ import CellTowerLocator from "./CellTowerLocator.js";
 const app = express();
 const cellTowerLocator = new CellTowerLocator();
 
-app.get("/health-check", (req, res) => {
-    res.send("OK!");
-});
-
-app.get("/", (req, res) => {
+app.get("/getClosestCellTower", (req, res) => {
     console.log(req.query);
     const { x, y } = req.query;
 
