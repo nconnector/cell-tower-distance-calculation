@@ -11,10 +11,9 @@ app.get("/getClosestCellTower", (req, res) => {
     const validateCoordinate = (input) =>
         !isNaN(input) && !isNaN(parseFloat(input));
     if (!validateCoordinate(x) || !validateCoordinate(y)) {
-        res.status(400).send(
-            "Error: Expected x:number and y:number as query parameters."
-        );
-        return;
+        return res
+            .status(400)
+            .send("Error: Expected x:number and y:number as query parameters.");
     }
 
     // compute response
@@ -22,7 +21,7 @@ app.get("/getClosestCellTower", (req, res) => {
         x,
         y
     );
-    res.send(JSON.stringify({ closestTower, distance }));
+    return res.send(JSON.stringify({ closestTower, distance }));
 });
 
 const port = 80;
